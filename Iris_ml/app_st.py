@@ -7,30 +7,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
-iris_df = pd.read_csv('iris.csv')
-iris_df.dropna(inplace=True)
-output = iris_df['variety']
-features = iris_df[['sepal.length',
-           'sepal.width',
-           'petal.length',
-           'petal.width']]
-features = pd.get_dummies(features)
-output, uniques = pd.factorize(output)
-
-x_train, x_test, y_train, y_test = train_test_split(
-    features, output, test_size=.8)
-rfc = RandomForestClassifier(random_state=15)
-rfc.fit(x_train, y_train)
-y_pred = rfc.predict(x_test)
-score = accuracy_score(y_pred, y_test)
-print('Our accuracy score for this model is {}'.format(score))
-
-rf_pickle = open('random_forest_iris.pickle', 'wb')
-pickle.dump(rfc, rf_pickle)
-rf_pickle.close()
-output_pickle = open('output_iris.pickle', 'wb')
-pickle.dump(uniques, output_pickle)
-output_pickle.close()
 
 
 st.title('Iris Classifier')
@@ -40,7 +16,7 @@ st.write("This app uses 6 inputs to predict the Variety of Iris using "
 
 iris_file = st.file_uploader('Upload your own Iris data')
 
-if iris_file is None:
+if iris_file is not None:
     rf_pickle = open('random_forest_iris.pickle', 'rb')
     map_pickle = open('output_iris.pickle', 'rb')
 
@@ -48,7 +24,6 @@ if iris_file is None:
     unique_penguin_mapping = pickle.load(map_pickle)
 
     rf_pickle.close()
-else:
     iris_df = pd.read_csv(iris_file)
     iris_df = iris_df.dropna()
 
