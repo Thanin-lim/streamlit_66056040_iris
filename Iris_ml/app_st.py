@@ -16,7 +16,7 @@ st.write("This app uses 6 inputs to predict the Variety of Iris using "
 
 iris_file = st.file_uploader('Upload your own Iris data')
 
-if iris_file is not None:
+if iris_file is None:
     rf_pickle = open('random_forest_iris.pickle', 'rb')
     map_pickle = open('output_iris.pickle', 'rb')
 
@@ -24,6 +24,7 @@ if iris_file is not None:
     unique_penguin_mapping = pickle.load(map_pickle)
 
     rf_pickle.close()
+else:
     iris_df = pd.read_csv(iris_file)
     iris_df = iris_df.dropna()
 
