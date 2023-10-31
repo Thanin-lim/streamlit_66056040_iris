@@ -17,4 +17,3 @@ streamlit-lottie
 watchdog
 st-pages
 scikit-learn
-pickle
