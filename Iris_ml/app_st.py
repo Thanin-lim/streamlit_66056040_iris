@@ -12,9 +12,9 @@ st.write("This app uses 6 inputs to predict the Variety of Iris using "
          "a model built on the Palmer's Iris's dataset. Use the form below"
          " to get started!")
 
-penguin_file = st.file_uploader('Upload your own Iris data')
+iris_file = st.file_uploader('Upload your own Iris data')
 
-if penguin_file is None:
+if iris_file is None:
     rf_pickle = open('random_forest_iris.pickle', 'rb')
     map_pickle = open('output_iris.pickle', 'rb')
 
@@ -23,7 +23,7 @@ if penguin_file is None:
 
     rf_pickle.close()
 else:
-    iris_df = pd.read_csv(penguin_file)
+    iris_df = pd.read_csv(iris_file)
     iris_df = iris_df.dropna()
 
     output = iris_df['variety']
