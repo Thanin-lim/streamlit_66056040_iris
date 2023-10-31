@@ -7,6 +7,32 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
+iris_df = pd.read_csv('iris.csv')
+iris_df.dropna(inplace=True)
+output = iris_df['variety']
+features = iris_df[['sepal.length',
+           'sepal.width',
+           'petal.length',
+           'petal.width']]
+features = pd.get_dummies(features)
+output, uniques = pd.factorize(output)
+
+x_train, x_test, y_train, y_test = train_test_split(
+    features, output, test_size=.8)
+rfc = RandomForestClassifier(random_state=15)
+rfc.fit(x_train, y_train)
+y_pred = rfc.predict(x_test)
+score = accuracy_score(y_pred, y_test)
+print('Our accuracy score for this model is {}'.format(score))
+
+rf_pickle = open('random_forest_iris.pickle', 'wb')
+pickle.dump(rfc, rf_pickle)
+rf_pickle.close()
+output_pickle = open('output_iris.pickle', 'wb')
+pickle.dump(uniques, output_pickle)
+output_pickle.close()
+
+
 st.title('Iris Classifier')
 st.write("This app uses 6 inputs to predict the Variety of Iris using "
          "a model built on the Palmer's Iris's dataset. Use the form below"
