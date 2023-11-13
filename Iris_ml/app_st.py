@@ -23,7 +23,7 @@ if iris_file is None:
     rfc = pickle.load(rf_pickle)
     unique_penguin_mapping = pickle.load(map_pickle)
 
-    rf_pickle.close()
+
 else:
     iris_df = pd.read_csv(iris_file)
     iris_df = iris_df.dropna()
