@@ -21,7 +21,7 @@ if iris_file is None:
     map_pickle = open('/mount/src/streamlit_66056040_iris/Iris_ml/output_iris.pickle', 'rb')
 
     rfc = pickle.load(rf_pickle)
-    unique_penguin_mapping = pickle.load(map_pickle)
+    unique_iris_mapping = pickle.load(map_pickle)
 
     rf_pickle.close()
 else:
@@ -36,7 +36,7 @@ else:
 
     features = pd.get_dummies(features)
 
-    output, unique_penguin_mapping = pd.factorize(output)
+    output, unique_iris_mapping = pd.factorize(output)
 
     x_train, x_test, y_train, y_test = train_test_split(
         features, output, test_size=.8)
@@ -78,18 +78,18 @@ else:
 
 with st.form('user_inputs'):
     sepal_length = st.number_input(
-        'Sepal Length', min_value=0.0, max_value=12.0, value=10.0)
+        'sepal.length', min_value=0.0, max_value=12.0, value=10.0)
     sepal_width = st.number_input(
-        'Sepal Width', min_value=0.0, max_value=12.0, value=10.0)
+        'sepal.width', min_value=0.0, max_value=12.0, value=10.0)
     petal_length = st.number_input(
-        'Petal Length', min_value=0.0, max_value=12.0, value=10.0)
+        'petal.length', min_value=0.0, max_value=12.0, value=10.0)
     petal_width = st.number_input(
-        'Petal Width', min_value=0.0, max_value=12.0, value=10.0)
+        'petal.width', min_value=0.0, max_value=12.0, value=10.0)
     st.form_submit_button()
 
 new_prediction =rfc.predict([[sepal_length, sepal_width, petal_length,
                                    petal_width]])
-prediction_species = unique_penguin_mapping[new_prediction][0]
+prediction_species = unique_iris_mapping[new_prediction][0]
 textpredict = '<p style="font-family:Courier; color:Black; font-size: 20px;">We predict your Iris is of the {} species</p>'
 st.markdown(textpredict.format(prediction_species), unsafe_allow_html=True)
 
