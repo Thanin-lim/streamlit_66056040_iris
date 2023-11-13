@@ -15,24 +15,23 @@ st.write("This app uses 6 inputs to predict the Variety of Iris using "
          " to get started!")
 
 iris_file = st.file_uploader('Upload your own Iris data')
-
-if iris_file is None:
-    rf_pickle = open('streamlit_66056040_iris/Iris_ml/random_forest_iris.pickle', 'rb')
+rf_pickle = open('streamlit_66056040_iris/Iris_ml/random_forest_iris.pickle', 'rb')
     map_pickle = open('streamlit_66056040_iris/Iris_ml/output_iris.pickle', 'rb')
 
     rfc = pickle.load(rf_pickle)
     unique_penguin_mapping = pickle.load(map_pickle)
 
     rf_pickle.close()
-else:
+
+if iris_file is not None:
     iris_df = pd.read_csv(iris_file)
     iris_df = iris_df.dropna()
 
     output = iris_df['variety']
     features = iris_df[['sepal.length',
-           'sepal.width',
-           'petal.length',
-           'petal.width']]
+                        'sepal.width',
+                        'petal.length',
+                        'petal.width']]
 
     features = pd.get_dummies(features)
 
@@ -73,8 +72,16 @@ else:
     plt.title("Palmer's Penguins Data")
     st.pyplot(fig)
 
-    textscore='<p style="font-family:Courier; color:Black; font-size: 16px;">We trained a Random Forest model on these data ,it has a score of {}! Use the inputs below to try out the model.</p>'
-    st.write(textscore.format(score),unsafe_allow_html=True)
+    textscore = '<p style="font-family:Courier; color:Black; font-size: 16px;">We trained a Random Forest model on these data ,it has a score of {}! Use the inputs below to try out the model.</p>'
+    st.write(textscore.format(score), unsafe_allow_html=True)
+else:
+    rf_pickle = open('streamlit_66056040_iris/Iris_ml/random_forest_iris.pickle', 'rb')
+    map_pickle = open('streamlit_66056040_iris/Iris_ml/output_iris.pickle', 'rb')
+
+    rfc = pickle.load(rf_pickle)
+    unique_penguin_mapping = pickle.load(map_pickle)
+
+    rf_pickle.close()
 
 with st.form('user_inputs'):
     sepal_length = st.number_input(
