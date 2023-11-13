@@ -15,13 +15,7 @@ st.write("This app uses 6 inputs to predict the Variety of Iris using "
          " to get started!")
 
 iris_file = st.file_uploader('Upload your own Iris data')
-rf_pickle = open('streamlit_66056040_iris/Iris_ml/random_forest_iris.pickle', 'rb')
-    map_pickle = open('streamlit_66056040_iris/Iris_ml/output_iris.pickle', 'rb')
 
-    rfc = pickle.load(rf_pickle)
-    unique_penguin_mapping = pickle.load(map_pickle)
-
-    rf_pickle.close()
 
 if iris_file is not None:
     iris_df = pd.read_csv(iris_file)
@@ -94,8 +88,7 @@ with st.form('user_inputs'):
         'Petal Width', min_value=0.0, max_value=12.0, value=10.0)
     st.form_submit_button()
 
-new_prediction =rfc.predict([[sepal_length, sepal_width, petal_length,
-                                   petal_width]])
+new_prediction =rfc.predict([[sepal_length, sepal_width, petal_length,petal_width]])
 prediction_species = unique_penguin_mapping[new_prediction][0]
 textpredict = '<p style="font-family:Courier; color:Black; font-size: 20px;">We predict your Iris is of the {} species</p>'
 st.markdown(textpredict.format(prediction_species), unsafe_allow_html=True)
